@@ -1,1 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Nex Assistant</title>
+
+<style>
+
+body{
+background:#0f172a;
+font-family:Arial;
+color:white;
+margin:0;
+}
+
+header{
+background:#020617;
+padding:20px;
+text-align:center;
+font-size:22px;
+}
+
+.chat{
+height:70vh;
+overflow:auto;
+padding:20px;
+}
+
+.input-area{
+position:fixed;
+bottom:0;
+width:100%;
+display:flex;
+background:#020617;
+}
+
+input{
+flex:1;
+padding:15px;
+border:none;
+background:#020617;
+color:white;
+}
+
+button{
+background:#38bdf8;
+border:none;
+padding:15px;
+color:white;
+}
+
+.message-user{
+text-align:right;
+margin:10px;
+}
+
+.message-bot{
+text-align:left;
+margin:10px;
+color:#38bdf8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+🤖 Nex Assistant
+</header>
+
+<div id="chat" class="chat">
+
+<div class="message-bot">
+Olá! Sou o Nex Assistant. Como posso ajudar?
+</div>
+
+</div>
+
+<div class="input-area">
+
+<input
+id="input"
+placeholder="Digite sua mensagem..."
+>
+
+<button onclick="sendMessage()">
+Enviar
+</button>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+let input=document.getElementById("input")
+
+let chat=document.getElementById("chat")
+
+let msg=input.value
+
+chat.innerHTML+=`
+<div class="message-user">${msg}</div>
+`
+
+if(msg==="modo nex comando"){
+
+chat.innerHTML+=`
+<div class="message-bot">
+Modo administrador ativado, Lexi.
+</div>
+`
+
+}
+
+else{
+
+chat.innerHTML+=`
+<div class="message-bot">
+Processando mensagem...
+</div>
+`
+
+}
+
+input.value=""
+
+chat.scrollTop=chat.scrollHeight
+
+}
+
+</script>
+
+</body>
+</html>
