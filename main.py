@@ -1,40 +1,37 @@
-import json
+from openai import OpenAI
 import os
+import json
 
-# carregar personalidade
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+
 def carregar_personalidade():
     try:
         with open("personality.txt", "r", encoding="utf-8") as file:
             return file.read()
     except:
-        return "Personalidade padrão do Nex Assistant."
+        return "Você é Nex Assistant, assistente pessoal de Lexi."
 
-# carregar memória
 def carregar_memoria():
     if os.path.exists("memory.json"):
         with open("memory.json", "r") as file:
             return json.load(file)
     return {}
 
-# salvar memória
-def salvar_memoria(memoria):
-    with open("memory.json", "w") as file:
-        json.dump(memoria, file)
+def responder(pergunta):
+    personalidade = carregar_personalidade()
 
-def responder(usuario_input):
-    memoria = carregar_memoria()
+    resposta = client.chat.completions.create(
+        model="gpt-4.1-mini",
+        messages=[
+            {"role": "system", "content": personalidade},
+            {"role": "user", "content": pergunta}
+        ]
+    )
 
-    if "nome" in usuario_input.lower():
-        memoria["nome_usuario"] = "Lexi"
-        salvar_memoria(memoria)
-        return "Nome registrado, Lexi."
-
-    return "Estou ativo. Como posso ajudar?"
+    return resposta.choices[0].message.content
 
 def main():
-    print("Nex Assistant iniciado.")
-    personalidade = carregar_personalidade()
-    print(personalidade)
+    print("Nex Assistant conectado à IA.")
 
     while True:
         entrada = input("Você: ")
